@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="decorationproject.decorationDetails"
+            id="DecorationProject.myDecorator"
+            label="myDecorator"
+            location="BOTTOM_LEFT"
+            state="false">
+      </decorator>
+   </extension>
+
+</plugin>
