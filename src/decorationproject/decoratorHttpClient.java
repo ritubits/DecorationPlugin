@@ -47,14 +47,11 @@ public class decoratorHttpClient {
 	
 	public Vector getCollabActivityDetails() throws Exception {
 		
-	 
-	//    	HttpGet httpget = new HttpGet("http://localhost:8080/examples/servlets/servlet/getCollaboratorDetails");
-	    	//returns all collaborator with artifact details
-		System.out.println("http://"+ipAddTomcat+"/examples/servlets/servlet/getCollaboratorDetails?pName="+projectName+"&cName="+collabName+"&ipAddT="+ipAddTomcat+"&ipAddSQL="+ipAddMySQL);
-	    	HttpGet httpget = new HttpGet("http://"+ipAddTomcat+"/examples/servlets/servlet/getCollaboratorDetails?pName="+projectName+"&cName="+collabName+"&ipAddT="+ipAddTomcat+"&ipAddSQL="+ipAddMySQL);
+	     	//returns all collaborator with artifact details
+			System.out.println("Invoking servlet getCollaboratorDetails"+"http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
+	    	HttpGet httpget = new HttpGet("http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
 	    	CloseableHttpResponse response = httpclient.execute(httpget);
-	    	String respStatus=null;
-	    
+	    	String respStatus=null;	    
 			
 	    	try {
 	   
