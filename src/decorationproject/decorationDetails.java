@@ -6,6 +6,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.decorators.DecoratorManager;
+import org.eclipse.jface.viewers.DecorationOverlayIcon;
+import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -30,22 +32,12 @@ import org.eclipse.core.runtime.Path;
 
 public class decorationDetails extends LabelProvider implements ILabelDecorator {
 
- 
-	// ImageDescriptor  imageDesc1 = Activator.getImageDescriptor("images/1.gif");
 	ImageDescriptor imageDesc1 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/1.gif"),null));
 	ImageDescriptor imageDesc2 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/2.gif"),null));
 	ImageDescriptor imageDesc3 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/3.gif"),null));
 	ImageDescriptor imageDesc4 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/4.gif"),null));
 	ImageDescriptor  imageDesc_Caution = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/caution.gif"),null));
 	
-	/*ImageDescriptor  imageDesc2 = Activator.getImageDescriptor("images/2.gif");
-	 ImageDescriptor  imageDesc3 = Activator.getImageDescriptor("images/3.gif");
-	 ImageDescriptor  imageDesc4 = Activator.getImageDescriptor("images/4.gif");
-	 ImageDescriptor  imageDesc_Caution = Activator.getImageDescriptor("images/caution.gif");*/
-	 
-
-		
-
 	    Image img1 =  imageDesc1.createImage();
 	    Image img2 =  imageDesc2.createImage();
 	    Image img3 =  imageDesc3.createImage();
@@ -90,7 +82,6 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	    
 	    try {
 	        decoratorManager.setEnabled("DecorationProject.myDecorator",true);
-	       // decoratorManager.setEnabled("myDecorator",true);
 	        System.out.println("dedcorator enabled" + decoratorManager);
 	        } catch (Exception e) {
 	        // TODO Auto-generated catch block
@@ -105,39 +96,28 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	
 
 	@Override
-	public Image decorateImage(Image image, Object object) {
+	public Image decorateImage(Image baseImage, Object object) {
 		// TODO Auto-generated method stub
-		// if a.java but 1 else if b.java put 3 else nothing
+
 		IResource objectResource;
 		System.out.println("Object:: "+object);
 		System.out.println("In decorateImage: "+ ActivityDetailsThread.getChangeStatus());
 		Vector artifactVec= UpdateArtifactVector();
-		//make connection to client
-	//	if (ActivityDetailsThread.getChangeStatus())
-	//	{
-			//if resource properties have changed
-			//get new image for decoration
-			//if java file, then proceed further
-		//	objectResource = (IResource) object;
+
 			 String countCollab=null;
-			//	if (!(object.toString().contains("class")) && (object.toString().contains(".java"))){
+
 					
 					if (!(object.toString().contains("class")) || (object.toString().contains(".java"))){
-			 //if ((objectResource.getType() == IResource.FOLDER) && !(object.toString().contains("class")) && (object.toString().contains(".java"))){
+
 				//check if exists in Vector, then updat accordingly
 	    		countCollab= checkExits(artifactVec,object.toString());
 	    	
 	    		if ((countCollab!=null) && !(countCollab.equals('0')))
 	    		{
-	    	//		System.out.println("Looking for image::"+countCollab);
-	    		//	 DecoratorManager.removeResource(objectResource);
-	    			return (getImageObject(countCollab));
+	    			return (getImageObject(countCollab, baseImage));
 	    		}
 				 
 			 }
-	//	}				
-		
-	//	refresh();
 		return null;
 
 	}
@@ -145,20 +125,16 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	public Vector UpdateArtifactVector()
 	{
 		Vector artifactVec= null;	
-//		if (ActivityDetailsThread.getChangeStatus())
 		{					
 			try {
 				//if changed then get updated vector and set changed to false
 				System.out.println("In second decorateImage: "+ ActivityDetailsThread.getChangeStatus());
-		//		ActivityDetailsThread.setChangeStatus(false);
 				Enumeration details= (ActivityDetailsThread.getActivityVector()).elements();
 				
 		    	while (details.hasMoreElements())
 		    	{
-		   // 		System.out.println("From decorateImage: "+ details.nextElement());
 		    		artifactVec= parseString((String) details.nextElement());
-		    	}
-		    	
+		    	}		    	
 			} catch (Exception e1) {
 				
 				e1.printStackTrace();
@@ -176,10 +152,6 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	
 	public void refresh() {
 	    System.out.println("in refresh");
-	 
-	 //   List resourcesToBeUpdated;
-	//    Object objectTobeDecorated=null;
-
 	    /**
 	     * Get the Demo decorator
 	     */
@@ -191,8 +163,6 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 
 	     System.out.println("firing:::");
 	        demoDecorator.fireLabelEvent(new LabelProviderChangedEvent(demoDecorator));
-	    //    demoDecorator.fireLabelEvent(new LabelProviderChangedEvent(demoDecorator, objectTobeDecorated));
-
 	    }
 	}
 
@@ -241,7 +211,6 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		{
 			obj= (ArtifactDataObject)eVec.nextElement();
 			System.out.println("Artifact Name:: "+obj.artifactName);
-		//	if (obj.artifactName.contains(name))
 				if (name.contains(obj.artifactName))
 				{
 				System.out.println("Artifact Exists:: "+obj.artifactName);
@@ -252,21 +221,8 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		return number;
 	}
 	
-	public Image getImageObject(String countCollab)
+	public Image getImageObject(String countCollab, Image baseImage)
 	{
-	/*	 ImageDescriptor  imageDesc1 = Activator.getImageDescriptor("images/1.gif");
-		 ImageDescriptor  imageDesc2 = Activator.getImageDescriptor("images/2.gif");
-		 ImageDescriptor  imageDesc3 = Activator.getImageDescriptor("images/3.gif");
-		 ImageDescriptor  imageDesc4 = Activator.getImageDescriptor("images/4.gif");
-		 ImageDescriptor  imageDesc_Caution = Activator.getImageDescriptor("images/caution.gif");
-		 
-		    Image img1 =  imageDesc1.createImage();
-		    Image img2 =  imageDesc2.createImage();
-		    Image img3 =  imageDesc3.createImage();
-		    Image img4 =  imageDesc4.createImage();
-		    Image CautionImg =  imageDesc_Caution.createImage();
-		    
-		    Image img=null;*/
 		    
 		    Integer i = Integer.parseInt(countCollab);
 		    System.out.println("Image:: "+i);
@@ -274,7 +230,9 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		    {
 		    case 0: System.out.println("returning image 0");
 	    		break;
-		    case 1: img=img1; System.out.println("returning image 1");
+		    case 1: img=img1; 
+		    img = getIconImage(baseImage, imageDesc1);
+		    System.out.println("returning image 1");
 		    	break;
 		    case 2: img=img2; System.out.println("returning image 2");
 	    		break;
@@ -289,11 +247,11 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		    
 		    return img;
 	}
-/*	private Image drawIconImage(Image baseImage, Vector decoratorImageKeys) {
-	    Image image;
-
-	    OverlayImageIcon overlayIcon = new OverlayImageIcon(baseImage,demoImage_, decoratorImageKeys);
-	    image = overlayIcon.getImage();
-	    return image;   }*/
+	
+	private Image getIconImage(Image baseImage, ImageDescriptor overlayImage) {
+	   
+	    DecorationOverlayIcon overlayIcon = new DecorationOverlayIcon(baseImage,overlayImage,IDecoration.TOP_RIGHT);
+	    return overlayIcon.createImage();   
+	    }
 }
 
