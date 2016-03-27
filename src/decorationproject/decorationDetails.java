@@ -32,11 +32,11 @@ import org.eclipse.core.runtime.Path;
 
 public class decorationDetails extends LabelProvider implements ILabelDecorator {
 
-	ImageDescriptor imageDesc1 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/1.gif"),null));
-	ImageDescriptor imageDesc2 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/2.gif"),null));
-	ImageDescriptor imageDesc3 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/3.gif"),null));
-	ImageDescriptor imageDesc4 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/4.gif"),null));
-	ImageDescriptor  imageDesc_Caution = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/caution.gif"),null));
+	ImageDescriptor imageDesc1 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/1.png"),null));
+	ImageDescriptor imageDesc2 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/2.png"),null));
+	ImageDescriptor imageDesc3 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/3.png"),null));
+	ImageDescriptor imageDesc4 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/4.png"),null));
+	ImageDescriptor  imageDesc_Caution = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/!.png"),null));
 	
 	    Image img1 =  imageDesc1.createImage();
 	    Image img2 =  imageDesc2.createImage();
