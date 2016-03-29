@@ -33,7 +33,7 @@ import org.eclipse.core.runtime.Path;
 public class decorationDetails extends LabelProvider implements ILabelDecorator {
 
 	ImageDescriptor imageDesc1 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/1.png"),null));
-	ImageDescriptor imageDesc2 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/2.png"),null));
+	ImageDescriptor imageDesc2 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/2b.png"),null));
 	ImageDescriptor imageDesc3 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/3.png"),null));
 	ImageDescriptor imageDesc4 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/4.png"),null));
 	ImageDescriptor  imageDesc_Caution = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/!.png"),null));
@@ -99,7 +99,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	public Image decorateImage(Image baseImage, Object object) {
 		// TODO Auto-generated method stub
 
-		IResource objectResource;
+/*		IResource objectResource;
 		System.out.println("Object:: "+object);
 		System.out.println("In decorateImage: "+ ActivityDetailsThread.getChangeStatus());
 		Vector artifactVec= UpdateArtifactVector();
@@ -117,7 +117,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	    			return (getImageObject(countCollab, baseImage));
 	    		}
 				 
-			 }
+			 }*/
 		return null;
 
 	}
@@ -145,10 +145,46 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	}
 
 	@Override
-	public String decorateText(String text, Object element) {
+	public String decorateText(String text, Object object) {
 		// TODO Auto-generated method stub
+		IResource objectResource;
+		System.out.println("Object:: "+object);
+		System.out.println("In decorateText: "+ ActivityDetailsThread.getChangeStatus());
+		Vector artifactVec= UpdateArtifactVector();
+
+			 String countCollab=null;
+
+					
+					if (!(object.toString().contains("class")) || (object.toString().contains(".java"))){
+
+				//check if exists in Vector, then updat accordingly
+	    		countCollab= checkExits(artifactVec,object.toString());
+	    	
+	    		if ((countCollab!=null) && !(countCollab.equals('0')))
+	    		{
+	    			if (object.toString().contains(".java"))
+	    					{
+	    			int lastIndex= (object.toString()).lastIndexOf("/");
+	    			
+	    				if (lastIndex == -1) return null;
+	    				else
+	    				{
+		    			String trimName = (object.toString()).substring(lastIndex+1);
+		    			return (trimName+" ("+countCollab+")");
+	    				}
+	    		}
+	    			else	return null;
+	    		}
+				 
+			 }
 		return null;
+	//	return object+"[decorateText]";
 	}
+	
+//	public void decorate(Object element, IDecoration decoration) {  
+//		 decoration.addSuffix(" [decorated]");  
+	//	 decoration.addOverlay(WARNING, IDecoration.BOTTOM_RIGHT);  
+//		}  
 	
 	public void refresh() {
 	    System.out.println("in refresh");
@@ -234,13 +270,20 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		    img = getIconImage(baseImage, imageDesc1);
 		    System.out.println("returning image 1");
 		    	break;
-		    case 2: img=img2; System.out.println("returning image 2");
+		    case 2: img=img2; 
+		    img = getIconImage(baseImage, imageDesc2);
+		    System.out.println("returning image 2");
 	    		break;
-		    case 3: img=img3; System.out.println("returning image 3");
+		    case 3: img=img3; 
+		    img = getIconImage(baseImage, imageDesc3);
+		    System.out.println("returning image 3");
 	    		break;
-		    case 4: img=img4; System.out.println("returning image 4");
+		    case 4: img=img4; 
+		    img = getIconImage(baseImage, imageDesc4);
+		    System.out.println("returning image 4");
 	    		break;
 	    	default: img= CautionImg;
+	    	  img = getIconImage(baseImage, imageDesc_Caution);
 	    		System.out.println("returning caution image");
 	    		break;
 		    }
@@ -251,7 +294,9 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	private Image getIconImage(Image baseImage, ImageDescriptor overlayImage) {
 	   
 	    DecorationOverlayIcon overlayIcon = new DecorationOverlayIcon(baseImage,overlayImage,IDecoration.TOP_RIGHT);
-	    return overlayIcon.createImage();   
+	       return overlayIcon.createImage();   
 	    }
+	
+
 }
 
