@@ -170,7 +170,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	    				else
 	    				{
 		    			String trimName = (object.toString()).substring(lastIndex+1);
-		    			return (trimName+" ("+countCollab+")");
+		    			return (trimName+" [["+countCollab+"]]");
 	    				}
 	    		}
 	    			else	return null;
