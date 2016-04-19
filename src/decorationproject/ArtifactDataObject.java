@@ -4,6 +4,7 @@ public class ArtifactDataObject {
 
 	String artifactName=null;
 	String noOfCollab=null;
+	boolean DEBUG= false;
 	
 	public ArtifactDataObject()
 	{

@@ -14,6 +14,7 @@ import org.apache.http.util.EntityUtils;
 
 public class decoratorHttpClient {
 	
+	boolean DEBUG= false;
 	HttpEntity entity=null;
 	Vector projectVector=null;
 	CloseableHttpClient httpclient=null;
@@ -35,10 +36,10 @@ public class decoratorHttpClient {
 		   
 	public boolean createCollabClient()
 	{
-		 System.out.println("Before creating client: decoratorHttpClient");
+		if (DEBUG) System.out.println("Before creating client: decoratorHttpClient");
 		 httpclient = HttpClients.createDefault();
 		 
-		 System.out.println("After creating client: decoratorHttpClient");
+		 if (DEBUG) System.out.println("After creating client: decoratorHttpClient");
 		 
 		 if (httpclient != null) return true; 
 		 else return false;
@@ -48,17 +49,17 @@ public class decoratorHttpClient {
 	public Vector getCollabActivityDetails() throws Exception {
 		
 	     	//returns all collaborator with artifact details
-			System.out.println("Invoking servlet getCollaboratorDetails"+"http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
+		if (DEBUG) System.out.println("Invoking servlet getCollaboratorDetails"+"http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
 	    	HttpGet httpget = new HttpGet("http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
 	    	CloseableHttpResponse response = httpclient.execute(httpget);
 	    	String respStatus=null;	    
 			
 	    	try {
 	   
-	    	System.out.println(response.getProtocolVersion());
-	    	System.out.println(response.getStatusLine().getStatusCode());
-	    	System.out.println(response.getStatusLine().getReasonPhrase());
-	    	System.out.println(response.getStatusLine().toString());
+	    		if (DEBUG) System.out.println(response.getProtocolVersion());
+	    		if (DEBUG) System.out.println(response.getStatusLine().getStatusCode());
+	    		if (DEBUG) System.out.println(response.getStatusLine().getReasonPhrase());
+	    		if (DEBUG) System.out.println(response.getStatusLine().toString());
 	    	respStatus= response.getStatusLine().toString();
 	    	
 		    	entity = response.getEntity();
@@ -73,7 +74,7 @@ public class decoratorHttpClient {
 		    		
 		    		} else {
 		    		// Stream content out
-		    			System.out.println("Received empty string from server in decoratorHttpClient");
+		    			if (DEBUG) System.out.println("Received empty string from server in decoratorHttpClient");
 		    		}
 		    		
 		    
@@ -96,7 +97,7 @@ public class decoratorHttpClient {
 	{
 		try
 		{
-			System.out.println("Closing Client");
+			if (DEBUG) System.out.println("Closing Client");
 			httpclient.close();
 		}
 		catch (Exception e)

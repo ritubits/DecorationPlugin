@@ -15,6 +15,7 @@ import decorationproject.decoratorHttpClient;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
+	boolean DEBUG= false;
 	public static final String PLUGIN_ID = "DecorationProject.myDecorator"; //$NON-NLS-1$
 	 
 
@@ -39,7 +40,7 @@ public class Activator extends AbstractUIPlugin {
 	
 		super.start(context);
 		plugin = this;
-		System.out.println("Here in Activator");
+		if (DEBUG) System.out.println("Here in Activator");
 		
 		Boolean success= false;
 		

@@ -6,6 +6,7 @@ import java.util.Vector;
 
 public class ActivityDetailsThread implements Runnable {
 
+	boolean DEBUG= false;
 	 static boolean changeStatus=false;
 	 decoratorHttpClient httpClient;
 	 static Vector activityDetails = null;
@@ -25,7 +26,7 @@ public class ActivityDetailsThread implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		 System.out.println("Run.....ActivityDetailsThread");
+		if (DEBUG) System.out.println("Run.....ActivityDetailsThread");
 		
 		 while (true)
 		 {

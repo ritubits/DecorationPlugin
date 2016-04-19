@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.Path;
 
 public class decorationDetails extends LabelProvider implements ILabelDecorator {
 
+	static boolean DEBUG= false;
 	ImageDescriptor imageDesc1 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/1.png"),null));
 	ImageDescriptor imageDesc2 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/2b.png"),null));
 	ImageDescriptor imageDesc3 = ImageDescriptor.createFromURL(FileLocator.find(Activator.getDefault().getBundle(),new Path("images/3.png"),null));
@@ -54,7 +55,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	public void addListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
 
-		System.out.println("In addListener");
+		if (DEBUG) System.out.println("In addListener");
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
-		System.out.println("In removeListener");
+		if (DEBUG) System.out.println("In removeListener");
 	}
 
 	public static decorationDetails getDemoDecorator() {
@@ -82,13 +83,13 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	    
 	    try {
 	        decoratorManager.setEnabled("DecorationProject.myDecorator",true);
-	        System.out.println("dedcorator enabled" + decoratorManager);
+	        if (DEBUG)  System.out.println("dedcorator enabled" + decoratorManager);
 	        } catch (Exception e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    }
 	    if (decoratorManager.getEnabled("DecorationProject.myDecorator")) {
-	        System.out.println("dedcorator enabled");
+	    	if (DEBUG) System.out.println("dedcorator enabled");
 	        return (decorationDetails) decoratorManager.getLabelDecorator("DecorationProject.myDecorator");
 	    }
 	    return null;
@@ -128,7 +129,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		{					
 			try {
 				//if changed then get updated vector and set changed to false
-				System.out.println("In second decorateImage: "+ ActivityDetailsThread.getChangeStatus());
+				if (DEBUG) System.out.println("In second decorateImage: "+ ActivityDetailsThread.getChangeStatus());
 				Enumeration details= (ActivityDetailsThread.getActivityVector()).elements();
 				
 		    	while (details.hasMoreElements())
@@ -148,8 +149,8 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	public String decorateText(String text, Object object) {
 		// TODO Auto-generated method stub
 		IResource objectResource;
-		System.out.println("Object:: "+object);
-		System.out.println("In decorateText: "+ ActivityDetailsThread.getChangeStatus());
+		if (DEBUG) System.out.println("Object:: "+object);
+		if (DEBUG) System.out.println("In decorateText: "+ ActivityDetailsThread.getChangeStatus());
 		Vector artifactVec= UpdateArtifactVector();
 
 			 String countCollab=null;
@@ -187,17 +188,17 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 //		}  
 	
 	public void refresh() {
-	    System.out.println("in refresh");
+		if (DEBUG) System.out.println("in refresh");
 	    /**
 	     * Get the Demo decorator
 	     */
 	    decorationDetails demoDecorator = getDemoDecorator();
 	    if (demoDecorator == null) {
-	    	System.out.println("Demo Decorator is Null");
+	    	if (DEBUG) System.out.println("Demo Decorator is Null");
 	        return;
 	    } else {
 
-	     System.out.println("firing:::");
+	    	if (DEBUG) System.out.println("firing:::");
 	        demoDecorator.fireLabelEvent(new LabelProviderChangedEvent(demoDecorator));
 	    }
 	}
@@ -205,7 +206,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	private void fireLabelEvent(final LabelProviderChangedEvent event) {
 	       Display.getDefault().asyncExec(new Runnable() {
 	        public void run() {
-	        	System.out.println("Fire Event::");
+	        	if (DEBUG) System.out.println("Fire Event::");
 	            fireLabelProviderChanged(event);
 	        }
 	    });
@@ -215,7 +216,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	{
 		Vector artifactData= new Vector();
     	String name=null;
-    	System.out.println("data:: "+data);
+    	if (DEBUG) System.out.println("data:: "+data);
 		  String[] temp1;
 		  String[] temp2;
 		 
@@ -230,7 +231,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		  //System.out.println("From strat: "+temp1[i]);
 		  
 		  temp2 = temp1[i].split(delimiter2);
-	 	  System.out.println("From parseString: "+temp2[0]+" "+temp2[1]);
+		  if (DEBUG) System.out.println("From parseString: "+temp2[0]+" "+temp2[1]);
 	 	  ArtifactDataObject obj= new ArtifactDataObject(temp2[0],temp2[1]);
 	 	  i++;
 	 	  artifactData.add(obj);
@@ -246,10 +247,10 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 		while (eVec.hasMoreElements())
 		{
 			obj= (ArtifactDataObject)eVec.nextElement();
-			System.out.println("Artifact Name:: "+obj.artifactName);
+			if (DEBUG) System.out.println("Artifact Name:: "+obj.artifactName);
 				if (name.contains(obj.artifactName))
 				{
-				System.out.println("Artifact Exists:: "+obj.artifactName);
+					if (DEBUG) System.out.println("Artifact Exists:: "+obj.artifactName);
 					number= obj.noOfCollab;
 					return number;
 				}
@@ -261,30 +262,30 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	{
 		    
 		    Integer i = Integer.parseInt(countCollab);
-		    System.out.println("Image:: "+i);
+		    if (DEBUG) System.out.println("Image:: "+i);
 		    switch (i)
 		    {
-		    case 0: System.out.println("returning image 0");
+		    case 0: if (DEBUG) System.out.println("returning image 0");
 	    		break;
 		    case 1: img=img1; 
 		    img = getIconImage(baseImage, imageDesc1);
-		    System.out.println("returning image 1");
+		    if (DEBUG) System.out.println("returning image 1");
 		    	break;
 		    case 2: img=img2; 
 		    img = getIconImage(baseImage, imageDesc2);
-		    System.out.println("returning image 2");
+		    if (DEBUG) System.out.println("returning image 2");
 	    		break;
 		    case 3: img=img3; 
 		    img = getIconImage(baseImage, imageDesc3);
-		    System.out.println("returning image 3");
+		    if (DEBUG) System.out.println("returning image 3");
 	    		break;
 		    case 4: img=img4; 
 		    img = getIconImage(baseImage, imageDesc4);
-		    System.out.println("returning image 4");
+		    if (DEBUG) System.out.println("returning image 4");
 	    		break;
 	    	default: img= CautionImg;
 	    	  img = getIconImage(baseImage, imageDesc_Caution);
-	    		System.out.println("returning caution image");
+	    	  if (DEBUG) System.out.println("returning caution image");
 	    		break;
 		    }
 		    
