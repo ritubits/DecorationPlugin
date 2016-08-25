@@ -1,6 +1,9 @@
 package decorationproject;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Vector;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -17,7 +20,11 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	boolean DEBUG= false;
 	public static final String PLUGIN_ID = "DecorationProject.myDecorator"; //$NON-NLS-1$
-	 
+	
+	static String projectName;
+	static String collabName;
+	static String ipAddTomcat;
+	static String ipAddMySQL;
 
 	static decoratorHttpClient collabClient= null;
 	
@@ -47,7 +54,10 @@ public class Activator extends AbstractUIPlugin {
 		if (collabClient == null) 
 		{
 		collabClient= new decoratorHttpClient();
-		collabClient.setConfigProjectValues("GreatProject", "heera", "localhost:8080", "localhost:3306");
+	//	System.out.println(readConfigParameters("D://configDecorator.java"));
+		//collabClient.setConfigProjectValues("MathProject", "CollabClient1", "192.168.1.6:8080", "192.168.1.6:3306");
+		//collabClient.setConfigProjectValues("MathProject", "CollabClientF", "localhost:8080", "localhost:3306");
+		collabClient.setConfigProjectValues("localhost:8080", "localhost:3306");
 		success= collabClient.createCollabClient();	
 		}
 
@@ -96,6 +106,23 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+	
+	public String readConfigParameters(String filePath) throws IOException 
+	{
+		StringBuilder fileData = new StringBuilder(1000);
+		BufferedReader reader = new BufferedReader(new FileReader(filePath));
+ 
+		char[] buf = new char[10];
+		int numRead = 0;
+		while ((numRead = reader.read(buf)) != -1) {
+
+			String readData = String.valueOf(buf, 0, numRead);
+			fileData.append(readData);
+			buf = new char[1024];
+		}
+		reader.close();
+		return  fileData.toString();	
 	}
 	
 }

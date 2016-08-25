@@ -19,21 +19,27 @@ public class decoratorHttpClient {
 	Vector projectVector=null;
 	CloseableHttpClient httpclient=null;
 	
-	String projectName;
-	String collabName;
+//	String projectName;
+//	String collabName;
 	String ipAddTomcat;
 	String ipAddMySQL;
 
 	static Boolean status=null;
 	
-	public void setConfigProjectValues(String pName, String cName, String ipT, String ipSQL )
+/*	public void setConfigProjectValues(String pName, String cName, String ipT, String ipSQL )
 	{
 		projectName = pName;
 		collabName= cName;
 		ipAddTomcat = ipT;
 		ipAddMySQL= ipSQL;
+	}*/
+		 
+	public void setConfigProjectValues(String ipT, String ipSQL )
+	{
+		ipAddTomcat = ipT;
+		ipAddMySQL= ipSQL;
 	}
-		   
+	
 	public boolean createCollabClient()
 	{
 		if (DEBUG) System.out.println("Before creating client: decoratorHttpClient");
@@ -49,8 +55,9 @@ public class decoratorHttpClient {
 	public Vector getCollabActivityDetails() throws Exception {
 		
 	     	//returns all collaborator with artifact details
-		if (DEBUG) System.out.println("Invoking servlet getCollaboratorDetails"+"http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
-	    	HttpGet httpget = new HttpGet("http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
+	//	if (DEBUG) System.out.println("Invoking servlet getCollaboratorDetails"+"http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
+	    	//HttpGet httpget = new HttpGet("http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails?pName="+projectName+"&cName="+collabName);
+	    	HttpGet httpget = new HttpGet("http://"+ipAddTomcat+"/collabserver/getCollaboratorDetails");
 	    	CloseableHttpResponse response = httpclient.execute(httpget);
 	    	String respStatus=null;	    
 			
