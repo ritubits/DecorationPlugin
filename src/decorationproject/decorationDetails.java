@@ -214,6 +214,7 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	
 	public Vector parseString(String data)
 	{
+
 		Vector artifactData= new Vector();
     	String name=null;
     	if (DEBUG) System.out.println("data:: "+data);
@@ -236,7 +237,9 @@ public class decorationDetails extends LabelProvider implements ILabelDecorator 
 	 	  i++;
 	 	  artifactData.add(obj);
 		  }
-		return artifactData;
+		
+		  return artifactData;
+	
 	}
 	
 	public String checkExits(Vector searchVec, String name)

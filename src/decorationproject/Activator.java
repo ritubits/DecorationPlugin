@@ -50,14 +50,18 @@ public class Activator extends AbstractUIPlugin {
 		if (DEBUG) System.out.println("Here in Activator");
 		
 		Boolean success= false;
-		
+		String configString= null;
+
 		if (collabClient == null) 
 		{
 		collabClient= new decoratorHttpClient();
-	//	System.out.println(readConfigParameters("D://configDecorator.java"));
+		configString= readConfigParameters("D://configDecorator.java");
+		//System.out.println(configString);
+		getAddConfig(configString);
+		
 		//collabClient.setConfigProjectValues("MathProject", "CollabClient1", "192.168.1.6:8080", "192.168.1.6:3306");
 		//collabClient.setConfigProjectValues("MathProject", "CollabClientF", "localhost:8080", "localhost:3306");
-		collabClient.setConfigProjectValues("localhost:8080", "localhost:3306");
+		collabClient.setConfigProjectValues(ipAddTomcat,ipAddMySQL);
 		success= collabClient.createCollabClient();	
 		}
 
@@ -75,6 +79,30 @@ public class Activator extends AbstractUIPlugin {
 			}
 	}
 
+	void getAddConfig(String configString)
+	{
+		  String[] temp1;
+		  String delimiter1 = "[\\n]";
+		  temp1 = configString.split("\\r\\n|\\n|\\r");
+		  
+		  int index= temp1[0].indexOf("|");
+		  System.out.println("length:"+temp1[0].length());
+		  projectName= temp1[0].substring(index+1, temp1[0].length());
+		  System.out.println("projectName:"+projectName);
+		  
+		  index= temp1[1].indexOf("|");
+		  collabName= temp1[1].substring(index+1, temp1[1].length());
+		  System.out.println("collabName:"+collabName);
+		  
+		  index= temp1[2].indexOf("|");
+		  ipAddTomcat= temp1[2].substring(index+1, temp1[2].length());
+		  System.out.println("ipAddTomcat:"+ipAddTomcat);
+		  
+		  index= temp1[3].indexOf("|");
+		  ipAddMySQL= temp1[3].substring(index+1, temp1[3].length());
+		  System.out.println("ipAddMySQL:"+ipAddMySQL);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
